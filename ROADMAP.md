@@ -13,17 +13,19 @@
 - [x] 2026-07-15：选定 UI 原型（`page.png`，typeless 范式）
 - [x] 2026-07-15：首次提交（init）全部开源文档与首版词库到 main
 - [x] 2026-07-15：建 CHANGELOG.md，记录 Unreleased 下的基础设施 + 词库
-- [x] 2026-07-15：加 MIT LICENSE；README 补英文版（双语）
+- [x] 2026-07-15：README 英文版（双语）+ MIT LICENSE（直接加授权）；准备推 GitHub
+- [x] 2026-07-15：阶段 3 完成 - ASR 流式字幕 + 标注引擎完整实现
 
 ## 进行中
 
-- [ ] `v0.1` 搭建三件套骨架（`index.html` / `styles/main.css` / `js/app.js`），UI 布局参照 `page.png`，含浏览器兼容检测占位
+- [ ] `v0.1` 浏览器实测（按验证清单逐项打勾）
 
 ## 待办（按执行顺序）
 
-- [ ] `v0.1` 接 ASR：`js/asr.js`，封装 Web Speech API 启停、累积 transcript、长录音自动重启
-- [ ] `v0.1` 接词库：`js/lexicon.js`，加载内置 JSON + 外部 URL 覆盖 / 回退
-- [ ] `v0.1` 接标注：`js/annotator.js`，filler（红 + 删）/ weak（蓝 + 删 + 建议气泡，可点击接受替换）
+- [x] `v0.1` 接 ASR：`js/asr.js`，封装 Web Speech API 启停、累积 transcript、长录音自动重启
+- [x] `v0.1` 接词库：`js/lexicon.js`，加载内置 JSON + 外部 URL 覆盖 / 回退
+- [x] `v0.1` 接标注：`js/annotator.js`，filler（红 + 删）/ weak（蓝 + 删 + 建议气泡，可点击接受替换）
+- [ ] `v0.1` 浏览器实测（按验证清单逐项打勾）
 - [ ] `v0.1` 接导出：`js/export.js`，清理文本（删 filler、换 weak）+ 复制 / 下载 TXT / 导出 JSON
 - [ ] `v0.1` 接历史：`js/history.js`，会话增删 + localStorage 持久化 + 导入
 - [ ] `v0.1` 接设置：`js/settings.js`，语言 / 字号 / 词库 URL 持久化
