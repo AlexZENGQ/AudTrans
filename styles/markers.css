@@ -18,9 +18,9 @@
 .mark-weak:hover,
 .mark-weak:focus { background: rgba(79, 157, 255, 0.12); border-radius: 3px; }
 
-/* 行内建议气泡 */
+/* 行内推荐词 */
 .weak-sugg {
-  color: #2dd4bf;
+  color: var(--marker-sugg);
   font-style: italic;
   cursor: pointer;
   margin-left: 2px;
@@ -31,6 +31,6 @@
 
 /* 接受替换后的文本 */
 .mark-replaced {
-  color: #2dd4bf;
-  border-bottom: 1px solid #2dd4bf;
+  color: var(--marker-replaced);
+  border-bottom: 1px solid var(--marker-replaced);
 }
