@@ -3,7 +3,8 @@
 import { detectCompat, showCompatHint, ASRController } from './asr.js';
 import { loadLexicon } from './lexicon.js';
 import { annotate, extractCleanText } from './annotator.js';
-import { saveSession } from './history.js';
+import { saveSession, deleteSession, getSession, renderHistory } from './history.js';
+import { getSettings, setSettings, applyStartup } from './settings.js';
 
 const $ = (id) => document.getElementById(id);
 const THEME_KEY = 'audtrans.theme';
@@ -137,23 +138,30 @@ async function boot() {
   // 2) 主题
   bindThemeSelect();
 
-  // 3) 加载词库
+  // 3) 先拿 DOM 引用
+  const caption = $('caption');
+  const range = $('fontSizeRange');
+
+  // 4) 字号 / 语言设置持久化启动应用
+  applyStartup({ fontSizeRange: range, langSelect: $('langSelect') });
+
+  // 5) 字号调节 + 持久化
+  range.addEventListener('input', () => {
+    caption.style.fontSize = `${range.value}px`;
+    setSettings({ fontSize: Number(range.value) });
+  });
+
+  // 6) 加载词库
   const params = new URLSearchParams(location.search);
   lexicon = await loadLexicon({
     fillerUrl: params.get('fillerUrl'),
     weakUrl: params.get('weakUrl'),
   });
 
-  // 4) 字号调节
-  const caption = $('caption');
-  const range = $('fontSizeRange');
-  caption.style.fontSize = `${range.value}px`;
-  range.addEventListener('input', () => { caption.style.fontSize = `${range.value}px`; });
-
-  // 5) 字幕流
+  // 6) 字幕流
   const flow = new SubtitleFlow(caption);
 
-  // 6) 装配 ASR
+  // 7) 装配 ASR
   const asr = new ASRController({
     lang: $('langSelect').value,
     onStart: () => {
@@ -170,11 +178,19 @@ async function boot() {
       $('stopBtn').disabled = true;
       $('startBtn').disabled = false;
       $('exportBar').classList.remove('export-bar--hidden');
+      refreshSidebar(); // 录音结束 → 刷新历史侧栏
     },
     onError: (msg) => console.error('[asr]', msg),
   });
 
-  // 7) 启停按钮（停止增加二次确认）
+  // 8) 语言切换持久化
+  $('langSelect').addEventListener('change', () => {
+    const lang = $('langSelect').value;
+    setSettings({ lang });
+    asr.setLang?.(lang);
+  });
+
+  // 9) 启停按钮（停止增加二次确认）
   $('startBtn').addEventListener('click', () => asr.start());
   $('stopBtn').addEventListener('click', async () => {
     const ok = await showConfirm({
@@ -185,7 +201,7 @@ async function boot() {
     if (ok) asr.stop();
   });
 
-  // 8) 导出
+  // 10) 导出
   $('copyCleanBtn').addEventListener('click', () => {
     const t = buildCleanText(flow.sessionData);
     navigator.clipboard?.writeText(t).then(
@@ -202,6 +218,31 @@ async function boot() {
     if (!s) return;
     triggerDownload(new Blob([JSON.stringify(s, null, 2)], { type: 'application/json' }), `${s.id}.json`);
   });
+
+  /* ---------- 历史侧栏 ---------- */
+  function refreshSidebar() {
+    renderHistory($('historyList'), {
+      onSelect: (s) => {
+        // 回放只读
+        import('./history.js').then(({ replaySession }) => {
+          replaySession($('caption'), s, lexicon, annotate);
+        });
+      },
+      onDelete: async (s) => {
+        const ok = await showConfirm({
+          title: '删除该会话？',
+          text: `「${s.title}」将被永久删除，不可恢复。`,
+          okLabel: '删除',
+        });
+        if (!ok) return;
+        deleteSession(s.id);
+        refreshSidebar();
+      },
+    });
+  }
+
+  // 启动时渲染一次历史
+  refreshSidebar();
 }
 
 function triggerDownload(blob, filename) {

@@ -157,8 +157,42 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
-.history-list { list-style: none; margin: 0; padding: 0; }
+.history-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
 .history-empty { color: var(--color-text-dim); font-size: 13px; }
+.history-item {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-surface-2);
+  overflow: hidden;
+}
+.history-item__btn {
+  flex: 1;
+  text-align: left;
+  background: transparent;
+  border: none;
+  color: var(--color-text);
+  padding: 8px 10px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.history-item__btn:hover { background: rgba(79, 140, 255, 0.08); }
+.history-item__title { font-size: 13px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.history-item__meta { font-size: 11px; color: var(--color-text-dim); }
+.history-item__del {
+  background: transparent;
+  border: none;
+  color: var(--color-text-dim);
+  cursor: pointer;
+  padding: 0 12px;
+  font-size: 18px;
+  line-height: 1;
+}
+.history-item__del:hover { color: var(--color-danger); background: rgba(255, 93, 93, 0.08); }
 
 .stage {
   display: flex;

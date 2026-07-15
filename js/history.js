@@ -40,8 +40,8 @@ export function listSessions() {
   return Object.values(readAll()).sort((a, b) => b.createdAt - a.createdAt);
 }
 
-/** 渲染历史列表到 ul 元素 */
-export function renderHistory(listEl) {
+/** 渲染历史列表到 ul 元素，支持点击和删除 callback */
+export function renderHistory(listEl, { onSelect, onDelete } = {}) {
   if (!listEl) return;
   const items = listSessions();
   listEl.innerHTML = '';
@@ -55,8 +55,25 @@ export function renderHistory(listEl) {
   items.forEach((s) => {
     const li = document.createElement('li');
     li.className = 'history-item';
-    li.textContent = s.title;
-    li.title = new Date(s.createdAt).toLocaleString();
+
+    const btn = document.createElement('button');
+    btn.className = 'history-item__btn';
+    const date = new Date(s.createdAt);
+    btn.innerHTML = `<span class="history-item__title">${s.title || date.toLocaleString()}</span><span class="history-item__meta">${s.entries.length} 条 · ${date.toLocaleDateString()}</span>`;
+    btn.addEventListener('click', () => onSelect?.(s));
+
+    const del = document.createElement('button');
+    del.className = 'history-item__del';
+    del.title = '删除该会话';
+    del.setAttribute('aria-label', '删除该会话');
+    del.textContent = '×';
+    del.addEventListener('click', (e) => {
+      e.stopPropagation();
+      onDelete?.(s);
+    });
+
+    li.appendChild(btn);
+    li.appendChild(del);
     listEl.appendChild(li);
   });
 }
@@ -64,6 +81,26 @@ export function renderHistory(listEl) {
 /** 通知历史列表刷新（在新会话保存 / 删除后调用） */
 export function refreshHistory(listEl) {
   renderHistory(listEl);
+}
+
+/** 回放单个会话到主字幕区（只读，不清 localStorage）
+ * @param {(text:string, lexicon:object)=>DocumentFragment} annotateFn 由调用方注入
+ */
+export function replaySession(captionEl, session, lexicon, annotateFn) {
+  if (!captionEl || !session || !annotateFn) return;
+  captionEl.innerHTML = '';
+  const hint = document.createElement('p');
+  hint.className = 'caption__line caption__hint';
+  hint.textContent = `查看历史：${session.title}（${new Date(session.createdAt).toLocaleString()}）`;
+  captionEl.appendChild(hint);
+
+  session.entries.forEach((e) => {
+    const p = document.createElement('p');
+    p.className = 'caption__line caption__line--final';
+    p.appendChild(annotateFn(e.text, lexicon));
+    captionEl.appendChild(p);
+  });
+  captionEl.scrollTop = 0;
 }
 
 /** 当前会话占位，完整装配在下一阶段 */
