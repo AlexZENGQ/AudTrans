@@ -132,6 +132,9 @@ body {
   word-break: break-word;
 }
 .caption__hint { color: var(--color-text-dim); margin: 0; }
+.caption__line { margin: 0 0 12px; }
+.caption__line--interim { color: var(--color-text-dim); }
+.caption__line--final { color: var(--color-text); }
 
 /* === 导出栏 === */
 .export-bar {
