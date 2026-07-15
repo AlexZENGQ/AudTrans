@@ -13,6 +13,7 @@
 - [x] 2026-07-15：选定 UI 原型（`page.png`，typeless 范式）
 - [x] 2026-07-15：首次提交（init）全部开源文档与首版词库到 main
 - [x] 2026-07-15：建 CHANGELOG.md，记录 Unreleased 下的基础设施 + 词库
+- [x] 2026-07-15：加 MIT LICENSE；README 补英文版（双语）
 
 ## 进行中
 

@@ -9,6 +9,8 @@
 - 项目开源基础设施：README / ROADMAP / CONTRIBUTING / CLAUDE / .gitignore / CHANGELOG
 - 词库数据：`data/filler.json`（语气词，32 条）、`data/weak.json`（弱表达，15 条含建议）
 - UI 参考原型 `page.png`（typeless 范式）
+- MIT LICENSE（版权人：AudTrans Contributors）
+- README 英文版（双语 README：中文 + English）
 
 ### Changed / Fixed
 （暂无）

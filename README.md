@@ -1,5 +1,89 @@
 # AudTrans
 
+> A **web-based live caption tool** inspired by typeless. Open a recording or meeting, get real-time speech captions, with filler words and weak expressions visually marked.
+
+[中文版本 ↓](#audtrans-中文)
+
+## What it does
+
+- One-click recording in the browser → real-time streaming captions (Chinese first)
+- **Filler words** (嗯 / 啊 / 那个…) → **red + strikethrough**
+- **Weak expressions** (然后 / 就是…) → **blue + strikethrough** + inline suggestions; tap to accept the replacement
+- Session history auto-saved as JSON; export / import / copy cleaned text (auto-remove filler, replace weak expressions)
+- Works on both **Windows and Mac** (open in browser)
+
+## Interface prototype
+
+![reference layout](./page.png)
+
+A typeless-style layout: top bar for settings, center streaming captions with inline marks, bottom control bar.
+
+## Quick start
+
+Pure frontend. Zero build. Zero server.
+
+**Option 1: open directly in browser**
+
+```bash
+# Double click index.html (desktop Chrome / Edge recommended)
+```
+
+**Option 2: run a static server (avoids `file://` limits in some browsers)**
+
+```bash
+python3 -m http.server 8000
+# then visit http://localhost:8000
+```
+
+> ⚠️ **Browser compatibility**: speech recognition relies on the browser's built-in Web Speech API. **Desktop Chrome / Edge have the best Chinese support**. Firefox / Safari / mobile browsers are not yet supported and will get a guidance prompt.
+
+## Usage
+
+1. Open page → click **「开始录音 / Start recording」**
+2. Browser asks for microphone permission → allow
+3. Start speaking → **live captions appear in the center**, filler / weak expressions marked instantly
+4. Tap the **inline suggestion bubble** on a weak expression to accept the replacement
+5. Click **「结束录音 / Stop」** → export actions appear: **copy cleaned text** / **download TXT** / **export JSON**
+6. History sessions listed on the left; JSON can be imported back to page
+
+## Lexicon
+
+Two built-in Chinese lexicons (`data/filler.json`, `data/weak.json`) — works out of the box.
+
+External URLs are also supported for override:
+
+```
+index.html?fillerUrl=https://example.com/filler.json&weakUrl=https://example.com/weak.json
+```
+
+Invalid URLs (network / CORS failure) silently fall back to the built-in lexicon — your session is not interrupted.
+
+## Privacy
+
+- Speech recognition uses the **browser's built-in engine** (Web Speech API); recognition is handled by the browser and its default engine.
+- **This project does NOT collect, store, or upload any speech or caption data.**
+- Session history stays **local to the browser** (localStorage); you can also actively export JSON files to your local disk.
+
+## Development
+
+Want to tinker rather than just use it? See [CONTRIBUTING.md](./CONTRIBUTING.md).
+
+## Roadmap
+
+Current progress, backlog, and recent releases: see [ROADMAP.md](./ROADMAP.md).
+
+Changelog: see [CHANGELOG.md](./CHANGELOG.md).
+
+## License
+
+MIT. See [LICENSE](./LICENSE).
+
+---
+
+<br />
+
+# AudTrans（中文）
+
 > 一个受 typeless 启发的**网页版实时字幕工具**：开录音 / 会议时，实时显示语音字幕，并自动标注语气词与表达不佳的词。
 
 ## 能做什么
@@ -8,13 +92,13 @@
 - **语气词**（嗯、啊、那个…）→ **红色 + 删除线**
 - **表达不佳词**（然后、就是…）→ **蓝色 + 删除线** + 行内建议，点击即可接受替换
 - 历史会话自动保存为 JSON，可导出、导入、复制清理后文本（自动删 filler、替换弱表达）
-- Windows / Mac 通用（浏览器打开即用）
+- **Windows / Mac 通用**（浏览器打开即用）
 
 ## 界面原型
 
 ![参考界面](./page.png)
 
-布局参照 typeless：顶部设置、中间实时字幕流带行内标注、底部控制栏。
+参照 typeless 范式：顶部设置、中间实时字幕流带行内标注、底部控制栏。
 
 ## 快速开始
 
@@ -23,14 +107,14 @@
 **方式一：直接用浏览器打开**
 
 ```bash
-# 进项目目录双击 index.html 即可（推荐 Chrome / Edge 桌面版）
+# 进项目目录双击 index.html（推荐 Chrome / Edge 桌面版）
 ```
 
-**方式二：起一个静态服务器（解决部分浏览器对 file:// 的限制）**
+**方式二：起静态服务器（解决部分浏览器对 file:// 的限制）**
 
 ```bash
 python3 -m http.server 8000
-# 然后访问 http://localhost:8000
+# 访问 http://localhost:8000
 ```
 
 > ⚠️ **浏览器兼容**：语音识别依赖浏览器内置的 Web Speech API，**桌面 Chrome / Edge 对中文支持最好**。Firefox / Safari / 移动端浏览器暂不支持，页面会给出引导提示。
@@ -74,4 +158,4 @@ index.html?fillerUrl=https://example.com/filler.json&weakUrl=https://example.com
 
 ## 开源协议
 
-待定（TODO: 选择 MIT / Apache-2.0 等）。
+MIT。见 [LICENSE](./LICENSE)。
