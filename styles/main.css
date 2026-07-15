@@ -1,6 +1,6 @@
-/* === 全局样式 / 布局 === */
-
-:root {
+/* === 主题变量（默认 = 暗色） === */
+:root,
+[data-theme="dark"] {
   --color-bg: #0f1115;
   --color-surface: #171a21;
   --color-surface-2: #1f242e;
@@ -12,9 +12,48 @@
   --color-danger-hover: #ff7878;
   --color-border: #2a2f3a;
 
-  --font-size-base: 32px;
-  --radius: 8px;
-  --gap: 16px;
+  --marker-filler: #ff6b6b;
+  --marker-weak: #4f9dff;
+  --marker-sugg: #2dd4bf;
+  --marker-replaced: #2dd4bf;
+}
+
+/* Notion 风：暖米白底 + 深棕文字 + 低饱和强调 */
+[data-theme="notion"] {
+  --color-bg: #f7f6f3;
+  --color-surface: #ffffff;
+  --color-surface-2: #f1f0ed;
+  --color-text: #37352f;
+  --color-text-dim: #6b6b6b;
+  --color-primary: #2383e2;
+  --color-primary-hover: #1b6dc0;
+  --color-danger: #e03e3e;
+  --color-danger-hover: #c43030;
+  --color-border: #e8e5dc;
+
+  --marker-filler: #d44545;
+  --marker-weak: #1b6dc0;
+  --marker-sugg: #0f766e;
+  --marker-replaced: #0f766e;
+}
+
+/* 亮色 */
+[data-theme="light"] {
+  --color-bg: #ffffff;
+  --color-surface: #f5f6f8;
+  --color-surface-2: #ebedf0;
+  --color-text: #1a1a1a;
+  --color-text-dim: #5a5f6b;
+  --color-primary: #2f6fe0;
+  --color-primary-hover: #4a85ee;
+  --color-danger: #d83a3a;
+  --color-danger-hover: #e85555;
+  --color-border: #d4d7dc;
+
+  --marker-filler: #c0392b;
+  --marker-weak: #2f6fe0;
+  --marker-sugg: #1e8e7e;
+  --marker-replaced: #1e8e7e;
 }
 
 * { box-sizing: border-box; }
@@ -76,6 +115,26 @@ body {
   border-radius: 6px;
   padding: 4px 8px;
 }
+
+/* === 弹层（二次确认） === */
+.modal {
+  position: fixed; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+}
+.modal--hidden { display: none; }
+.modal__card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 24px 28px;
+  min-width: 320px; max-width: 90vw;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+.modal__title { margin: 0 0 12px; font-size: 18px; }
+.modal__text { margin: 0 0 20px; color: var(--color-text-dim); }
+.modal__actions { display: flex; justify-content: flex-end; gap: 10px; }
 
 /* === 主体两栏 === */
 .layout {

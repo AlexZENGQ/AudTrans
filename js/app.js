@@ -6,20 +6,63 @@ import { annotate, extractCleanText } from './annotator.js';
 import { saveSession } from './history.js';
 
 const $ = (id) => document.getElementById(id);
+const THEME_KEY = 'audtrans.theme';
 
 let lexicon = null;
 
-/**
- * 字幕流管理器：
- * - 一句话 = 一个段落。interim 时反复刷新同一 <p>（灰色），
- *   final 时锁定该段（白色）并 push 进 session.entries。
- * 这是 typeless 范式：同一句话在同一视觉位置由灰变白，不反复新建行。
- */
+/* ---------- 主题切换 ---------- */
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+}
+function bindThemeSelect() {
+  const sel = $('themeSelect');
+  if (!sel) return;
+  const saved = localStorage.getItem(THEME_KEY);
+  if (saved) sel.value = saved;
+  applyTheme(sel.value);
+  sel.addEventListener('change', () => {
+    applyTheme(sel.value);
+    localStorage.setItem(THEME_KEY, sel.value);
+  });
+}
+
+/* ---------- 二次确认弹层 ---------- */
+function showConfirm({ title, text, okLabel = '确认', okDanger = true }) {
+  return new Promise((resolve) => {
+    const modal = $('confirmModal');
+    const titleEl = $('confirmTitle');
+    const textEl = $('confirmText');
+    const okBtn = $('confirmOk');
+    const cancelBtn = $('confirmCancel');
+
+    titleEl.textContent = title;
+    textEl.textContent = text;
+    okBtn.textContent = okLabel;
+    okBtn.className = okDanger ? 'btn btn--danger' : 'btn btn--primary';
+    modal.classList.remove('modal--hidden');
+
+    const close = (result) => {
+      modal.classList.add('modal--hidden');
+      okBtn.removeEventListener('click', onOk);
+      cancelBtn.removeEventListener('click', onCancel);
+      modal.removeEventListener('click', onBg);
+      resolve(result);
+    };
+    const onOk = () => close(true);
+    const onCancel = () => close(false);
+    const onBg = (e) => { if (e.target === modal) close(false); };
+    okBtn.addEventListener('click', onOk);
+    cancelBtn.addEventListener('click', onCancel);
+    modal.addEventListener('click', onBg);
+  });
+}
+
+/* ---------- 字幕流 ---------- */
 class SubtitleFlow {
   constructor(captionEl) {
     this.caption = captionEl;
-    this.current = null;   // 当前正在识别的 utterance { el, text }
-    this.session = null;   // 当前会话
+    this.current = null;
+    this.session = null;
   }
 
   reset(lang) {
@@ -36,7 +79,6 @@ class SubtitleFlow {
 
   get sessionData() { return this.session; }
 
-  /** interim：把当前 utterance 的文本刷新（同一 p 反复 replace） */
   updateInterim(text) {
     if (!this.current) {
       const p = document.createElement('p');
@@ -50,16 +92,12 @@ class SubtitleFlow {
     this.caption.scrollTop = this.caption.scrollHeight;
   }
 
-  /** final：锁定当前 utterance → 白色、加入 entries */
   commitFinal(text) {
     const p = this.current ? this.current.el : document.createElement('p');
     p.className = 'caption__line caption__line--final';
     p.textContent = '';
     p.appendChild(annotate(text, lexicon));
     if (!this.current) this.caption.appendChild(p);
-    if (!this.current) {
-      // 没 interim 直接进入 final 的情况
-    }
     if (this.session) {
       this.session.entries.push({
         id: `e_${this.session.entries.length + 1}`,
@@ -69,12 +107,11 @@ class SubtitleFlow {
         createdAt: Date.now(),
       });
     }
-    this.current = null; // 下句话会新建一个 p
+    this.current = null;
     this.caption.scrollTop = this.caption.scrollHeight;
   }
 
   finalize() {
-    // 结束时若还有未锁定的 interim，当作 final 锁定
     if (this.current) {
       this.current.el.className = 'caption__line caption__line--final';
       this.current = null;
@@ -87,6 +124,7 @@ function buildCleanText(session) {
   return session.entries.map((e) => e.clean).join('');
 }
 
+/* ---------- 装配 ---------- */
 async function boot() {
   // 1) 浏览器兼容检测
   const compat = detectCompat();
@@ -96,23 +134,26 @@ async function boot() {
     return;
   }
 
-  // 2) 加载词库
+  // 2) 主题
+  bindThemeSelect();
+
+  // 3) 加载词库
   const params = new URLSearchParams(location.search);
   lexicon = await loadLexicon({
     fillerUrl: params.get('fillerUrl'),
     weakUrl: params.get('weakUrl'),
   });
 
-  // 3) 字号调节
+  // 4) 字号调节
   const caption = $('caption');
   const range = $('fontSizeRange');
   caption.style.fontSize = `${range.value}px`;
   range.addEventListener('input', () => { caption.style.fontSize = `${range.value}px`; });
 
-  // 4) 字幕流
+  // 5) 字幕流
   const flow = new SubtitleFlow(caption);
 
-  // 5) 装配 ASR
+  // 6) 装配 ASR
   const asr = new ASRController({
     lang: $('langSelect').value,
     onStart: () => flow.reset(asr.lang),
@@ -129,11 +170,18 @@ async function boot() {
     onError: (msg) => console.error('[asr]', msg),
   });
 
-  // 6) 按钮绑定
+  // 7) 启停按钮（停止增加二次确认）
   $('startBtn').addEventListener('click', () => asr.start());
-  $('stopBtn').addEventListener('click', () => asr.stop());
+  $('stopBtn').addEventListener('click', async () => {
+    const ok = await showConfirm({
+      title: '结束录音？',
+      text: '点击「确认」会结束当前录音并保存会话；取消则继续录音。',
+      okLabel: '确认结束',
+    });
+    if (ok) asr.stop();
+  });
 
-  // 7) 导出
+  // 8) 导出
   $('copyCleanBtn').addEventListener('click', () => {
     const t = buildCleanText(flow.sessionData);
     navigator.clipboard?.writeText(t).then(

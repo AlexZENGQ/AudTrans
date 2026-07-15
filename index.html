@@ -17,6 +17,14 @@
     <div class="topbar__spacer"></div>
     <div id="compatHint" class="compat-hint compat-hint--.hidden" role="alert"></div>
     <label class="lang-select">
+      主题
+      <select id="themeSelect">
+        <option value="dark" selected>暗色</option>
+        <option value="light">亮色</option>
+        <option value="notion">Notion</option>
+      </select>
+    </label>
+    <label class="lang-select">
       语言
       <select id="langSelect">
         <option value="zh-CN" selected>中文（简体）</option>
@@ -64,6 +72,18 @@
       <input id="fontSizeRange" type="range" min="18" max="64" value="32" />
     </label>
   </footer>
+
+  <!-- 二次确认弹层 -->
+  <div id="confirmModal" class="modal modal--hidden" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+    <div class="modal__card">
+      <h3 id="confirmTitle" class="modal__title"></h3>
+      <p id="confirmText" class="modal__text"></p>
+      <div class="modal__actions">
+        <button id="confirmCancel" class="btn btn--ghost">取消</button>
+        <button id="confirmOk" class="btn btn--danger">确认</button>
+      </div>
+    </div>
+  </div>
 
   <!-- 模块入口（ES Module） -->
   <script type="module" src="js/app.js"></script>
