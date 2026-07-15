@@ -12,13 +12,20 @@
 
 > A **web-based live caption tool** inspired by typeless. Open a recording or meeting, get real-time speech captions, with filler words and weak expressions visually marked.
 
+## 🌐 Live demo
+
+**https://alexzengq.github.io/AudTrans/** — open in desktop Chrome / Edge and start using immediately. No install, no sign-up.
+
 ## What it does
 
-- One-click recording in the browser → real-time streaming captions (Chinese first)
+- **Real-time streaming captions** (Chinese / English) directly in the browser
 - **Filler words** (嗯 / 啊 / 那个…) → **red + strikethrough**
 - **Weak expressions** (然后 / 就是…) → **blue + strikethrough** + inline suggestions; tap to accept the replacement
-- Session history auto-saved as JSON; export / import / copy cleaned text (auto-remove filler, replace weak expressions)
-- Works on both **Windows and Mac** (open in browser)
+- **Session history** auto-saved locally; replay, delete, or export cleaned text / TXT / JSON
+- **Three themes** — Dark / Light / Notion style; font size adjustable
+- **Recording timer** with duration display
+- Works on **Windows and Mac** (any Chromium-based desktop browser)
+- Privacy-first — all data stays in your browser; we never collect your voice / captions
 
 ## Interface prototype
 
@@ -28,17 +35,13 @@ A typeless-style layout: top bar for settings, center streaming captions with in
 
 ## Quick start
 
-Pure frontend. Zero build. Zero server.
+**Online (recommended)**: **https://alexzengq.github.io/AudTrans/** — open in desktop Chrome / Edge and start using immediately.
 
-**Option 1: open directly in browser**
-
-```bash
-# Double click index.html (desktop Chrome / Edge recommended)
-```
-
-**Option 2: run a static server (avoids `file://` limits in some browsers)**
+**Offline / Local**:
 
 ```bash
+# Option A: just double-click index.html in Finder / Explorer
+# Option B: if file:// is blocked, run a static server
 python3 -m http.server 8000
 # then visit http://localhost:8000
 ```
@@ -52,7 +55,8 @@ python3 -m http.server 8000
 3. Start speaking → **live captions appear in the center**, filler / weak expressions marked instantly
 4. Tap the **inline suggestion bubble** on a weak expression to accept the replacement
 5. Click **「结束录音 / Stop」** → export actions appear: **copy cleaned text** / **download TXT** / **export JSON**
-6. History sessions listed on the left; JSON can be imported back to page
+6. **Left sidebar** shows history sessions — click to replay, × 删除, click「← 返回录音」to return to live recording
+7. **Top-right**: switch Theme (Dark / Light / Notion) and Language (中 / EN)
 
 ## Lexicon
 
@@ -101,13 +105,20 @@ MIT. See [LICENSE](./LICENSE).
 
 > 一个受 typeless 启发的**网页版实时字幕工具**：开录音 / 会议时，实时显示语音字幕，并自动标注语气词与表达不佳的词。
 
+## 🌐 在线使用
+
+**https://alexzengq.github.io/AudTrans/** —— 桌面 Chrome / Edge 打开即用，无需安装或注册。
+
 ## 能做什么
 
-- 浏览器一键开始录音 → 实时流式字幕（中文优先）
+- 浏览器一键开始录音 → **实时流式字幕**（中文 / 英文）
 - **语气词**（嗯、啊、那个…）→ **红色 + 删除线**
 - **表达不佳词**（然后、就是…）→ **蓝色 + 删除线** + 行内建议，点击即可接受替换
-- 历史会话自动保存为 JSON，可导出、导入、复制清理后文本（自动删 filler、替换弱表达）
-- **Windows / Mac 通用**（浏览器打开即用）
+- 历史会话自动保存在本地；可回放、删除、导出清理文本 / TXT / JSON
+- **三种主题**：暗色 / 亮色 / Notion 风；字号可调节
+- **录音计时器**：显示录音时长，录音中有红色脉冲指示
+- **Windows / Mac 通用**（任何 Chromium 内核桌面浏览器）
+- 隐私优先 —— 所有数据保留在浏览器本地，项目方不采集任何语音与字幕
 
 ## 界面原型
 
@@ -117,17 +128,13 @@ MIT. See [LICENSE](./LICENSE).
 
 ## 快速开始
 
-纯前端，无构建，零服务端。
+**在线（推荐）**：**https://alexzengq.github.io/AudTrans/** —— 桌面 Chrome / Edge 打开即用。
 
-**方式一：直接用浏览器打开**
-
-```bash
-# 进项目目录双击 index.html（推荐 Chrome / Edge 桌面版）
-```
-
-**方式二：起静态服务器（解决部分浏览器对 file:// 的限制）**
+**离线 / 本地**：
 
 ```bash
+# 方式 A：直接双击 index.html
+# 方式 B：如被 file:// 限制，起一个静态服务器
 python3 -m http.server 8000
 # 访问 http://localhost:8000
 ```
@@ -138,10 +145,11 @@ python3 -m http.server 8000
 
 1. 打开页面 → 点击「开始录音」
 2. 浏览器会请求麦克风权限 → 允许
-3. 开始说话 →**实时字幕出现在主区**，语气词 / 弱表达即时标注
+3. 开始说话 → **实时字幕出现在主区**，语气词 / 弱表达即时标注
 4. 点击弱表达的**行内建议气泡**可接受替换
 5. 点击「结束录音」 → 出现导出入口：**复制清理文本** / **下载 TXT** / **导出 JSON**
-6. 历史会话在左侧面板可浏览，JSON 可导入回页面复现
+6. **左侧边栏**显示历史会话 → 点击回放、× 删除、点击「← 返回录音」回到当前录音
+7. **右上角**切换主题（暗色 / 亮色 / Notion）和语言（中 / EN）
 
 ## 词库
 
