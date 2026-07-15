@@ -171,11 +171,12 @@ function createTimer() {
   let startedAt = 0;
   let tickHandle = null;
 
-  function fmt(ms) {
+  function format(ms) {
     const total = Math.floor(ms / 1000);
-    const m = String(Math.floor(total / 60)).padStart(2, '0');
+    const h = Math.floor(total / 3600);
+    const m = String(Math.floor((total % 3600) / 60)).padStart(2, '0');
     const s = String(total % 60).padStart(2, '0');
-    return `${m}:${s}`;
+    return h > 0 ? `${String(h).padStart(2, '0')}:${m}:${s}` : `${m}:${s}`;
   }
 
   function render() {

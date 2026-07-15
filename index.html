@@ -15,22 +15,18 @@
       <span class="brand__name">AudTrans</span>
     </div>
     <div class="topbar__spacer"></div>
-    <div id="compatHint" class="compat-hint compat-hint--.hidden" role="alert"></div>
-    <label class="lang-select">
-      主题
-      <select id="themeSelect">
+    <div id="compatHint" class="compat-hint compat-hint--hidden" role="alert"></div>
+    <div class="topbar__controls">
+      <select id="themeSelect" class="select" aria-label="主题">
         <option value="dark" selected>暗色</option>
         <option value="light">亮色</option>
         <option value="notion">Notion</option>
       </select>
-    </label>
-    <label class="lang-select">
-      语言
-      <select id="langSelect">
-        <option value="zh-CN" selected>中文（简体）</option>
+      <select id="langSelect" class="select" aria-label="语言">
+        <option value="zh-CN" selected>中文</option>
         <option value="en-US">English</option>
       </select>
-    </label>
+    </div>
   </header>
 
   <!-- 主体两栏 -->
@@ -45,9 +41,6 @@
 
     <!-- 右：字幕工作区 -->
     <section class="stage">
-      <!-- 音频可视化 -->
-      <canvas id="visualizer" class="visualizer" width="900" height="60"></canvas>
-
       <!-- 实时字幕 -->
       <div id="caption" class="caption" aria-live="polite">
         <p class="caption__hint">点击下方「开始录音」，然后说话。</p>
@@ -64,14 +57,17 @@
 
   <!-- 底部控制栏 -->
   <footer class="controlbar">
-    <button id="startBtn" class="btn btn--primary">开始录音</button>
-    <button id="stopBtn" class="btn btn--danger" disabled>结束录音</button>
-    <span id="recTimer" class="rec-timer" aria-live="off">00:00</span>
-    <span class="controlbar__spacer"></span>
-    <label class="fontsize-control">
-      字号
-      <input id="fontSizeRange" type="range" min="18" max="64" value="32" />
-    </label>
+    <div class="controlbar__group">
+      <button id="startBtn" class="btn btn--primary">开始录音</button>
+      <button id="stopBtn" class="btn btn--danger" disabled>结束录音</button>
+    </div>
+    <div class="controlbar__group">
+      <span id="recTimer" class="rec-timer" aria-live="off">00:00</span>
+      <label class="fontsize-control">
+        <span class="fontsize-control__label">字号</span>
+        <input id="fontSizeRange" type="range" min="18" max="64" value="32" />
+      </label>
+    </div>
   </footer>
 
   <!-- 二次确认弹层 -->

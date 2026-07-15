@@ -1,24 +1,29 @@
-/* === 标注样式（红/蓝/删除线/建议气泡） === */
+/* === 标注样式（红/蓝/推荐词/替换词） === */
 
-/* 语气词：红色 + 删除线 */
+/* 语气词：红色删除线 */
 .mark-filler {
-  color: #ff6b6b;
+  color: var(--marker-filler);
   text-decoration: line-through;
-  text-decoration-color: #ff6b6b;
+  text-decoration-color: var(--marker-filler);
+  text-decoration-thickness: 2px;
 }
 
-/* 弱表达：蓝色 + 删除线 + 可点击 */
+/* 弱表达：蓝色删除线 + 可点击 */
 .mark-weak {
-  color: #4f9dff;
+  color: var(--marker-weak);
   text-decoration: line-through;
-  text-decoration-color: #4f9dff;
+  text-decoration-color: var(--marker-weak);
+  text-decoration-thickness: 2px;
   cursor: pointer;
   outline: none;
+  border-radius: 4px;
+  padding: 0 2px;
+  transition: background 0.15s;
 }
 .mark-weak:hover,
-.mark-weak:focus { background: rgba(79, 157, 255, 0.12); border-radius: 3px; }
+.mark-weak:focus { background: var(--color-primary-soft); }
 
-/* 行内推荐词（嵌套在 mark-weak 内，必须阻断父元素删除线的继承） */
+/* 行内推荐词（嵌套在 mark-weak 内，必须阻断父元素删除线继承） */
 .weak-sugg {
   color: var(--marker-sugg);
   font-style: italic;
@@ -34,5 +39,6 @@
 /* 接受替换后的文本 */
 .mark-replaced {
   color: var(--marker-replaced);
-  border-bottom: 1px solid var(--marker-replaced);
+  border-bottom: 2px solid var(--marker-replaced);
+  padding: 0 1px;
 }
