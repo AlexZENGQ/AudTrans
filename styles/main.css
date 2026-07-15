@@ -223,6 +223,13 @@ body {
   min-height: 0;
   padding: 24px;
   gap: 16px;
+  position: relative;
+}
+
+.back-to-live {
+  align-self: flex-start;
+  margin-bottom: 4px;
+  font-weight: 600;
 }
 
 /* === 字幕区 === */

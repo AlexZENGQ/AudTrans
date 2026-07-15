@@ -88,11 +88,14 @@ class SubtitleFlow {
     this.caption = captionEl;
     this.current = null;
     this.session = null;
+    this.isReplay = false;
+    this._preReplayHTML = null;
   }
 
   reset(lang) {
     this.caption.innerHTML = '';
     this.current = null;
+    this.isReplay = false;
     this.session = {
       id: `sess_${Date.now()}_${Math.floor(Math.random() * 1e4)}`,
       title: `${new Date().toLocaleString()} 会话`,
@@ -104,6 +107,24 @@ class SubtitleFlow {
   }
 
   get sessionData() { return this.session; }
+
+  /** 进入历史回放：暂存当前字幕 DOM，切到只读历史视图 */
+  enterReplay() {
+    if (this.isReplay) return;
+    this.isReplay = true;
+    this._preReplayHTML = this.caption.innerHTML;
+    this.caption.innerHTML = '';
+  }
+
+  /** 退出历史回放：恢复录音中的字幕 DOM */
+  exitReplay() {
+    if (!this.isReplay) return;
+    this.caption.innerHTML = this._preReplayHTML || '';
+    this._preReplayHTML = null;
+    this.isReplay = false;
+  }
+
+  get replaying() { return this.isReplay; }
 
   /**
    * interim：只显示纯文本（灰），不跑 annotate —— 大幅降低延迟。
@@ -172,19 +193,19 @@ function createTimer() {
   let tickHandle = null;
 
   function format(ms) {
-    const total = Math.floor(ms / 1000);
+    const total = Math.max(0, Math.floor(ms / 1000));
     const h = Math.floor(total / 3600);
     const m = String(Math.floor((total % 3600) / 60)).padStart(2, '0');
     const s = String(total % 60).padStart(2, '0');
-    return h > 0 ? `${String(h).padStart(2, '0')}:${m}:${s}` : `${m}:${s}`;
+    return `${String(h).padStart(2, '0')}:${m}:${s}`;
   }
 
   function render() {
     if (!startedAt) {
-      el.textContent = '00:00';
+      el.textContent = '00:00:00';
       return;
     }
-    el.textContent = fmt(Date.now() - startedAt);
+    el.textContent = format(Date.now() - startedAt);
   }
 
   return {
@@ -250,6 +271,7 @@ async function boot() {
   const asr = new ASRController({
     lang: $('langSelect').value,
     onStart: () => {
+      if (backBtn) { backBtn.remove(); backBtn = null; }
       flow.reset(asr.lang);
       $('stopBtn').disabled = false;
       $('startBtn').disabled = true;
@@ -316,9 +338,31 @@ async function boot() {
   });
 
   /* ---------- 历史侧栏 ---------- */
+  let backBtn = null;
+
+  function ensureBackButton() {
+    if (backBtn) return backBtn;
+    backBtn = document.createElement('button');
+    backBtn.className = 'btn btn--primary back-to-live';
+    backBtn.textContent = '← 返回录音';
+    backBtn.addEventListener('click', () => {
+      flow.exitReplay();
+      backBtn.remove();
+      backBtn = null;
+    });
+    return backBtn;
+  }
+
   function refreshSidebar() {
     renderHistory($('historyList'), {
-      onSelect: (s) => replaySession($('caption'), s, lexicon, annotate),
+      onSelect: (s) => {
+        // 进入历史回放：暂存当前字幕视图
+        flow.enterReplay();
+        const btn = ensureBackButton();
+        const stage = document.querySelector('.stage');
+        stage.insertBefore(btn, stage.firstChild);
+        replaySession(flow.caption, s, lexicon, annotate);
+      },
       onDelete: async (s) => {
         const ok = await showConfirm({
           title: '删除该会话？',
