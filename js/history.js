@@ -87,12 +87,26 @@ export function refreshHistory(listEl) {
  * @param {(text:string, lexicon:object)=>DocumentFragment} annotateFn 由调用方注入
  */
 export function replaySession(captionEl, session, lexicon, annotateFn) {
-  if (!captionEl || !session || !annotateFn) return;
+  if (!captionEl || !session) return;
+  if (typeof annotateFn !== 'function') {
+    console.error('[replaySession] annotateFn 不是函数');
+    return;
+  }
   captionEl.innerHTML = '';
   const hint = document.createElement('p');
   hint.className = 'caption__line caption__hint';
-  hint.textContent = `查看历史：${session.title}（${new Date(session.createdAt).toLocaleString()}）`;
+  const durMs = session.recordedMs || 0;
+  const dur = durMs ? ` · ${Math.floor(durMs / 60000)}分${Math.floor((durMs % 60000) / 1000)}秒` : '';
+  hint.textContent = `查看历史：${session.title}（${new Date(session.createdAt).toLocaleString()}）${dur}`;
   captionEl.appendChild(hint);
+
+  if (!session.entries.length) {
+    const empty = document.createElement('p');
+    empty.className = 'caption__line caption__hint';
+    empty.textContent = '（该会话无可回放内容）';
+    captionEl.appendChild(empty);
+    return;
+  }
 
   session.entries.forEach((e) => {
     const p = document.createElement('p');

@@ -253,7 +253,25 @@ body {
 .fontsize-control { display: flex; align-items: center; gap: 8px; color: var(--color-text-dim); }
 .fontsize-control input { width: 140px; }
 
-/* === 按钮 === */
+/* === 录音计时器 === */
+.rec-timer {
+  display: inline-block;
+  min-width: 56px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  font-size: 14px;
+  color: var(--color-text-dim);
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  letter-spacing: 0.05em;
+}
+.rec-timer--active {
+  color: var(--color-danger);
+  border-color: var(--color-danger);
+  background: rgba(255, 93, 93, 0.08);
+}
 .btn {
   padding: 8px 16px;
   border: 1px solid var(--color-border);
