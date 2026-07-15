@@ -1,8 +1,16 @@
 # AudTrans
 
-> A **web-based live caption tool** inspired by typeless. Open a recording or meeting, get real-time speech captions, with filler words and weak expressions visually marked.
+<p style="margin:4px 0 16px; font-size:14px; color:#777;">
+  <strong>Language · 语言：</strong>
+  <a href="#en" style="color:#4f8cff; text-decoration:none;">English</a>
+  <span style="color:#ccc;"> ｜ </span>
+  <a href="#audtrans中文" style="color:#4f8cff; text-decoration:none;">中文</a>
+</p>
 
-[中文版本 ↓](#audtrans-中文)
+<!-- English section id="en" (anchor goes above # AudTrans so it stays visible) -->
+<a id="en" style="display:block; margin-top:-24px; visibility:hidden;"></a>
+
+> A **web-based live caption tool** inspired by typeless. Open a recording or meeting, get real-time speech captions, with filler words and weak expressions visually marked.
 
 ## What it does
 
@@ -83,6 +91,13 @@ MIT. See [LICENSE](./LICENSE).
 <br />
 
 # AudTrans（中文）
+
+<p style="margin:4px 0 16px; font-size:14px; color:#777;">
+  <strong>Language · 语言：</strong>
+  <a href="#en" style="color:#4f8cff; text-decoration:none;">English</a>
+  <span style="color:#ccc;"> ｜ </span>
+  <a href="#audtrans中文" style="color:#4f8cff; text-decoration:none;">中文</a>
+</p>
 
 > 一个受 typeless 启发的**网页版实时字幕工具**：开录音 / 会议时，实时显示语音字幕，并自动标注语气词与表达不佳的词。
 
