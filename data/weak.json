@@ -1,0 +1,77 @@
+[
+  {
+    "pattern": "然后",
+    "suggestions": ["接着", "之后", "随后"],
+    "reason": "口语连词重复，易造成节奏拖沓"
+  },
+  {
+    "pattern": "就是说",
+    "suggestions": ["也就是说", "换句话说"],
+    "reason": "解释语重复，可更正式"
+  },
+  {
+    "pattern": "其实",
+    "suggestions": ["事实上", "实际上"],
+    "reason": "高频口语前缀，常可省略"
+  },
+  {
+    "pattern": "基本上",
+    "suggestions": ["总体来看", "整体上"],
+    "reason": "模糊限定词，削弱表达力度"
+  },
+  {
+    "pattern": "就是",
+    "suggestions": ["即", "正是"],
+    "reason": "高频语气词转义为判断词，口语冗余"
+  },
+  {
+    "pattern": "反正",
+    "suggestions": ["无论如何", "不管怎样"],
+    "reason": "口语化，书面可选更正式表达"
+  },
+  {
+    "pattern": "可能",
+    "suggestions": ["或许", "预计"],
+    "reason": "不确定性表述；视语境可换更强措辞"
+  },
+  {
+    "pattern": "我觉得",
+    "suggestions": ["我认为", "依我之见"],
+    "reason": "口语主观前缀；正式场合可换"
+  },
+  {
+    "pattern": "怎么说呢",
+    "suggestions": ["简而言之", "具体来说"],
+    "reason": "犹豫填充词，可删除或替换"
+  },
+  {
+    "pattern": "你知道",
+    "suggestions": ["应该了解", "众所周知"],
+    "reason": "反问式填充，书面宜精简"
+  },
+  {
+    "pattern": "说实话",
+    "suggestions": ["坦白讲", "客观地说"],
+    "reason": "情感前缀；视语境可精简"
+  },
+  {
+    "pattern": "随便",
+    "suggestions": ["灵活安排", "看情况"],
+    "reason": "模糊词，缺乏信息量"
+  },
+  {
+    "pattern": "没问题",
+    "suggestions": ["可以", "会处理好"],
+    "reason": "口语应答；正式邮件可换"
+  },
+  {
+    "pattern": "差不多",
+    "suggestions": ["大概", "接近"],
+    "reason": "模糊量词，必要时给出精确数字"
+  },
+  {
+    "pattern": "挺好的",
+    "suggestions": ["表现良好", "符合预期"],
+    "reason": "口语评价；正式场景更具体"
+  }
+]

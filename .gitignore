@@ -1,0 +1,36 @@
+# 忽略规则
+
+## 操作系统
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+## 编辑器 / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+## AI 工具
+.claude/
+CLAUDE.local.json
+
+## 依赖 / 构建（留作 v2 以后启用）
+node_modules/
+dist/
+build/
+*.log
+
+## 本地敏感
+.env
+.env.*
+*.local
+
+## 本地缓存（sessions 目录仅保留 .gitkeep）
+sessions/*
+!sessions/.gitkeep
+
+## 其他
+*.bak
+*.tmp
