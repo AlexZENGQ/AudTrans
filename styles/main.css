@@ -1,0 +1,177 @@
+/* === 全局样式 / 布局 === */
+
+:root {
+  --color-bg: #0f1115;
+  --color-surface: #171a21;
+  --color-surface-2: #1f242e;
+  --color-text: #e8eaed;
+  --color-text-dim: #9aa0aa;
+  --color-primary: #4f8cff;
+  --color-primary-hover: #6ba0ff;
+  --color-danger: #ff5d5d;
+  --color-danger-hover: #ff7878;
+  --color-border: #2a2f3a;
+
+  --font-size-base: 32px;
+  --radius: 8px;
+  --gap: 16px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+               "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  font-size: 14px;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* === 顶部条 === */
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+  padding: 10px 20px;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+.brand { display: flex; align-items: center; gap: 8px; font-weight: 600; }
+.brand__mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px; height: 24px;
+  border-radius: 6px;
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: 700;
+}
+.brand__name { font-size: 16px; }
+.topbar__spacer { flex: 1; }
+
+.compat-hint {
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: rgba(255, 93, 93, 0.12);
+  color: var(--color-danger);
+  font-size: 13px;
+}
+.compat-hint--hidden { display: none; }
+
+.lang-select { display: flex; align-items: center; gap: 6px; color: var(--color-text-dim); }
+.lang-select select {
+  background: var(--color-surface-2);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 4px 8px;
+}
+
+/* === 主体两栏 === */
+.layout {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: 0;
+}
+
+.sidebar {
+  border-right: 1px solid var(--color-border);
+  background: var(--color-surface);
+  padding: 16px;
+  overflow-y: auto;
+}
+.sidebar__title {
+  margin: 0 0 12px;
+  font-size: 13px;
+  color: var(--color-text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.history-list { list-style: none; margin: 0; padding: 0; }
+.history-empty { color: var(--color-text-dim); font-size: 13px; }
+
+.stage {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 20px;
+  gap: var(--gap);
+}
+
+/* === 音频可视化 === */
+.visualizer {
+  width: 100%;
+  height: 60px;
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--color-border);
+}
+
+/* === 字幕区 === */
+.caption {
+  flex: 1;
+  overflow-y: auto;
+  font-size: var(--font-size-base);
+  line-height: 1.6;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 24px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.caption__hint { color: var(--color-text-dim); margin: 0; }
+
+/* === 导出栏 === */
+.export-bar {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+.export-bar--hidden { display: none; }
+
+/* === 控制栏 === */
+.controlbar {
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+  padding: 12px 20px;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+.controlbar__spacer { flex: 1; }
+.fontsize-control { display: flex; align-items: center; gap: 8px; color: var(--color-text-dim); }
+.fontsize-control input { width: 140px; }
+
+/* === 按钮 === */
+.btn {
+  padding: 8px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface-2);
+  color: var(--color-text);
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.15s, border-color 0.15s, opacity 0.15s;
+}
+.btn:hover:not(:disabled) { border-color: var(--color-primary); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn--primary { background: var(--color-primary); border-color: var(--color-primary); color: #fff; }
+.btn--primary:hover:not(:disabled) { background: var(--color-primary-hover); }
+.btn--danger { background: var(--color-danger); border-color: var(--color-danger); color: #fff; }
+.btn--danger:hover:not(:disabled) { background: var(--color-danger-hover); }
+.btn--ghost { background: transparent; }

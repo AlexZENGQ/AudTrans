@@ -1,0 +1,36 @@
+/* === 标注样式（红/蓝/删除线/建议气泡） === */
+
+/* 语气词：红色 + 删除线 */
+.mark-filler {
+  color: #ff6b6b;
+  text-decoration: line-through;
+  text-decoration-color: #ff6b6b;
+}
+
+/* 弱表达：蓝色 + 删除线 + 可点击 */
+.mark-weak {
+  color: #4f9dff;
+  text-decoration: line-through;
+  text-decoration-color: #4f9dff;
+  cursor: pointer;
+  outline: none;
+}
+.mark-weak:hover,
+.mark-weak:focus { background: rgba(79, 157, 255, 0.12); border-radius: 3px; }
+
+/* 行内建议气泡 */
+.weak-sugg {
+  color: #2dd4bf;
+  font-style: italic;
+  cursor: pointer;
+  margin-left: 2px;
+}
+.weak-sugg:hover { text-decoration: underline; }
+.weak-sugg::before { content: "（"; color: var(--color-text-dim); }
+.weak-sugg::after { content: "）"; color: var(--color-text-dim); }
+
+/* 接受替换后的文本 */
+.mark-replaced {
+  color: #2dd4bf;
+  border-bottom: 1px solid #2dd4bf;
+}
