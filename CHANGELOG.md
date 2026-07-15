@@ -13,6 +13,37 @@
 
 ---
 
+## [0.2.0] - 2026-07-16
+
+> **对外上线版**：UI 高级感重设计 + 历史回放 + 上线 GitHub Pages。
+
+### Added
+- 上线 GitHub Pages：`https://alexzengq.github.io/AudTrans/`（对外可用，用户无需本地起服务）
+- 录音计时器：`HH:mm:ss` 格式，每秒刷新，录音中有红色脉冲圆点指示
+- 历史回放「返回录音」按钮：进入历史播放时主区顶部显示返回按钮，点击恢复当前录音视图
+- 字号 / 语言持久化：`js/settings.js` 提供 `getSettings / setSettings` 通用接口，启动应用已存值
+- 历史侧栏完整连通：显示时间+条数；点击回放；删除按钮二次确认
+
+### Fixed
+- **录音计时器不动**：`createTimer.render()` 调用了错误的 `fmt()`（应为 `format()`），被 setInterval 吞错导致永远显示 00:00
+- 历史回放无法直接返回录音界面：`replaySession` 清空前破坏正在录音的 DOM 且无返回出口
+
+### Changed
+- checklist 风格 UI 高级感重设计：中性灰 3 阶（bg / surface / surface2/3）、大圆角（8-16px）、柔和阴影、Inter 字体、scrollbar 隐约化
+- 顶部主题/语言 select 控件化：自定义右下角箭头，统一右对齐，12px 间距
+- 控制栏两端对齐：按钮组 vs 字号组分开
+- 标注色全部 CSS 变量化（`--marker-filler / weak / sugg / replaced`）+ `text-decoration-thickness: 2px`
+- 字幕 interim 阶段纯文本显示（不调 annotate），只在 final 时才标注 → **字幕延迟大幅改善**
+- 停止录音弹层：加 30s 超时自动关闭 / Esc 关闭 / DOM 缺失降级原生 `confirm`
+
+### 已知限制
+- 浏览器：仅桌面 Chrome / Edge 稳定支持中文识别（Web Speech API 限制）
+- 语音识别依赖网络与浏览器默认引擎
+- 中文返回无智能标点（v0.3 规划）
+- 最长录音时间约 10-20 分钟（浏览器单次识别会话 1-2 分钟，自动重启 10 次上限）
+
+---
+
 ## [0.1.0] - 2026-07-15
 
 > **首个 MVP 版本**：网页版实时字幕工具，浏览器打开即用。
