@@ -156,7 +156,11 @@ async function boot() {
   // 6) 装配 ASR
   const asr = new ASRController({
     lang: $('langSelect').value,
-    onStart: () => flow.reset(asr.lang),
+    onStart: () => {
+      flow.reset(asr.lang);
+      $('stopBtn').disabled = false;
+      $('startBtn').disabled = true;
+    },
     onInterim: (text) => flow.updateInterim(text),
     onFinal: (text) => flow.commitFinal(text),
     onEnd: () => {

@@ -18,12 +18,14 @@
 .mark-weak:hover,
 .mark-weak:focus { background: rgba(79, 157, 255, 0.12); border-radius: 3px; }
 
-/* 行内推荐词 */
+/* 行内推荐词（嵌套在 mark-weak 内，必须阻断父元素删除线的继承） */
 .weak-sugg {
   color: var(--marker-sugg);
   font-style: italic;
   cursor: pointer;
   margin-left: 2px;
+  text-decoration: none;           /* 关键：阻断父元素 line-through 继承 */
+  display: inline-block;             /* 让 text-decoration 独立于父元素 */
 }
 .weak-sugg:hover { text-decoration: underline; }
 .weak-sugg::before { content: "（"; color: var(--color-text-dim); }
